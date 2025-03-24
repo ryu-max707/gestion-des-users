@@ -11,6 +11,7 @@ class User {
     public $email;
     public $password;
     public $role;
+    public $status;
 
     // Constructeur pour initialiser la connexion à la base de données
     public function __construct($db) {
@@ -19,14 +20,16 @@ class User {
 
     // Méthode pour inscrire un utilisateur
     public function register() {
-        $sql = "INSERT INTO " . $this->table . " (name, email, password, role) 
-                VALUES (:name, :email, :password, 'user')";
+        $sql = "INSERT INTO " . $this->table . " (name, email, password, role, status) 
+                VALUES (:name, :email, :password, 'user', 'active')";
         $stmt = $this->conn->prepare($sql);
         
         // On lie les paramètres
         $stmt->bindParam(':name', $this->name);
         $stmt->bindParam(':email', $this->email);
         $stmt->bindParam(':password', $this->password);
+        $stmt->bindParam(':role', $this->role);
+        $stmt->bindParam(':status', $this->status);
         
         // Exécution de la requête
         return $stmt->execute();

@@ -28,7 +28,7 @@
 
         <!-- Main Content -->
         <main class="flex-1 p-10">
-            <h1 class="text-2xl font-bold mb-5">Tableau de bord administrateur</h1>
+            <h1 class="text-2xl font-bold mb-5">Bienvenue  Administrateur</h1>
             <div class="bg-white shadow-md rounded p-5">
                 <h2 class="text-xl font-semibold mb-3">Gestion des utilisateurs</h2>
                 <table class="w-full border-collapse border border-gray-300 text-center">
@@ -38,7 +38,12 @@
                             <th class="border p-2">Nom</th>
                             <th class="border p-2">Email</th>
                             <th class="border p-2">Rôle</th>
+                            <th class="border p-2">update</th>
+                            <th class="border p-2">status</th>
                             <th class="border p-2">Actions</th>
+                             
+
+                             
                         </tr>
                     </thead>
                     <tbody>
@@ -59,8 +64,24 @@
                                         <a href="index.php?url=deleteUser&id=<?= $user['id'] ?>" onclick="return confirm('Supprimer cet utilisateur ?')" class="text-red-500 hover:text-red-700">
                                             <i data-lucide="trash"></i>
                                         </a>
-                                    </td>
+                                        <td class="border p-2">
+    <?php if ($user['status'] == 'active'): ?>
+        <span class="text-green-500 font-bold">✔ Actif</span>
+    <?php else: ?>
+        <span class="text-red-500 font-bold">✖ Inactif</span>
+    <?php endif; ?>
+</td>
+<td class="border p-2 flex justify-center gap-3">
+    <a href="index.php?url=toggleUserStatus&id=<?= $user['id'] ?>" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-700">
+        <?= ($user['status'] == 'active') ? 'Désactiver' : 'Activer' ?>
+    </a>
+    
+</td>
+                      
                                 </tr>
+                                
+                                
+
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>

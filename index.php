@@ -48,6 +48,11 @@ switch ($url) {
         }
         break;
 
+    case 'toggleUserStatus':
+        $user = new UserController();
+        $user->toggleUserStatus();
+        break;
+
     case 'logout':
         session_destroy();
         header('Location: index.php');

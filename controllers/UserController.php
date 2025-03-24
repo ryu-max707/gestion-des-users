@@ -69,6 +69,9 @@ class UserController {
         require 'views/admin/edituser.php';
     }
 
+
+    
+
     public function deleteUser() {
         if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
             header('Location: index.php?url=login');
@@ -83,4 +86,29 @@ class UserController {
         header('Location: index.php?url=admin_dashboard');
         exit();
     }
+
+    public function toggleUserStatus() {
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+            header('Location: index.php?url=login');
+            exit();
+        }
+    
+        $id = $_GET['id'];
+    
+        // Récupérer le statut actuel
+        $stmt = $this->conn->prepare("SELECT status FROM users WHERE id = ?");
+        $stmt->execute([$id]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        if ($user) {
+            $newStatus = ($user['status'] === 'active') ? 'inactive' : 'active';
+            $stmt = $this->conn->prepare("UPDATE users SET status = ? WHERE id = ?");
+            $stmt->execute([$newStatus, $id]);
+        }
+    
+        header('Location: index.php?url=admin_dashboard');
+    }
+    
+
+    
 }
