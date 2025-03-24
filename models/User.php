@@ -28,8 +28,7 @@ class User {
         $stmt->bindParam(':name', $this->name);
         $stmt->bindParam(':email', $this->email);
         $stmt->bindParam(':password', $this->password);
-        $stmt->bindParam(':role', $this->role);
-        $stmt->bindParam(':status', $this->status);
+        
         
         // Exécution de la requête
         return $stmt->execute();
@@ -77,4 +76,19 @@ class User {
         // Exécution de la suppression
         return $stmt->execute(['id' => $id]);
     }
+
+    public function getUserById($id)
+{
+    $stmt = $this->conn->prepare("SELECT * FROM users WHERE id = ?");
+    $stmt->execute([$id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+public function updateStatus($id, $status)
+{
+    $stmt = $this->conn->prepare("UPDATE users SET status = ? WHERE id = ?");
+    return $stmt->execute([$status, $id]);
+}
+
+
 }
